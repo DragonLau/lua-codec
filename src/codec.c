@@ -271,7 +271,6 @@ static int codec_rsa_private_sign(lua_State *L)
   BIO *bio = BIO_new_mem_buf((void *)pem, -1);
   if(bio == NULL)
   {
-    BIO_free_all(bio);
     return luaL_error(L, "PEM error");
   }
   RSA *rsa = PEM_read_bio_RSAPrivateKey(bio, NULL, NULL, NULL);
@@ -291,7 +290,6 @@ static int codec_rsa_private_sign(lua_State *L)
   if(ret != 1)
   {
     RSA_free(rsa);
-    BIO_free_all(bio);
     return luaL_error(L, "RSA sign error");
   }
   RSA_free(rsa);
@@ -344,7 +342,6 @@ static int codec_rsa_public_verify(lua_State *L)
   BIO *bio = BIO_new_mem_buf((void *)pem, -1);
   if(bio == NULL)
   {
-    BIO_free_all(bio);
     return luaL_error(L, "PEM error");
   }
   RSA *rsa = type == 1 ? PEM_read_bio_RSAPublicKey(bio, NULL, NULL, NULL) : PEM_read_bio_RSA_PUBKEY(bio, NULL, NULL, NULL);
@@ -383,7 +380,6 @@ static int codec_rsa_public_encrypt(lua_State *L)
   BIO *bio = BIO_new_mem_buf((void *)pem, -1);
   if(bio == NULL)
   {
-    BIO_free_all(bio);
     return luaL_error(L, "PEM error");
   }
   RSA *rsa = type == 1 ? PEM_read_bio_RSAPublicKey(bio, NULL, NULL, NULL) : PEM_read_bio_RSA_PUBKEY(bio, NULL, NULL, NULL);
@@ -402,7 +398,6 @@ static int codec_rsa_public_encrypt(lua_State *L)
   if(ret != n)
   {
     RSA_free(rsa);
-    BIO_free_all(bio);
     return luaL_error(L, "RSA public encrypt error");
   }
   RSA_free(rsa);
@@ -429,7 +424,6 @@ static int codec_rsa_private_decrypt(lua_State *L)
   BIO *bio = BIO_new_mem_buf((void *)pem, -1);
   if(bio == NULL)
   {
-    BIO_free_all(bio);
     return luaL_error(L, "PEM error");
   }
   RSA *rsa = PEM_read_bio_RSAPrivateKey(bio, NULL, NULL, NULL);
@@ -448,7 +442,6 @@ static int codec_rsa_private_decrypt(lua_State *L)
   if(ret <= 0)
   {
     RSA_free(rsa);
-    BIO_free_all(bio);
     return luaL_error(L, "RSA private decrypt error");
   }
   RSA_free(rsa);
